@@ -96,7 +96,7 @@ export class Service{
         try {
             return await this.bucket.createFile(
                 config.appwriteBucketId,
-                ID.unique,
+                ID.unique(),
                 file
             )
         } catch (error) {
@@ -126,5 +126,5 @@ export class Service{
     }
 }
 
-const service = new Service()
-export default service
+const appwriteService = new Service()
+export default appwriteService
