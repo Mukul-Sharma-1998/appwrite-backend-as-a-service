@@ -19,7 +19,7 @@ function Select({
             duration-200 border border-gray-200 w-full
             ${className}`}
             >
-                {options?.map((opton) => (
+                {options?.map((option) => (
                     <option key={option}>
                         {option}
                     </option>
