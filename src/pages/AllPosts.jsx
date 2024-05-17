@@ -8,14 +8,27 @@ function AllPosts() {
     const userStatus = useSelector((state) => state.auth.status)
     const allPosts = useSelector((state) => state.auth.posts)  
     const userData = useSelector((state) => state.auth.userData)
-
     const [posts, setPosts] = useState([])
+
+    const updateStoreWithPosts = async () => {
+        const newPosts = await appwriteService.getPosts()
+        const userPost = newPosts.documents.filter(post => post.userId == userData.$id); 
+        setPosts(userPost)
+        const updatedStoreData = {
+            userData: userData,
+            posts: newPosts
+        }
+        dispatch(login(updatedStoreData))
+    }
+
+    
     useEffect(() => {
         if(userStatus) {
             if(allPosts) {
                 const userPost = allPosts.documents.filter(post => post.userId == userData.$id); 
                 setPosts(userPost)
-
+            } else {
+                updateStoreWithPosts()
             }
         }
     }, [])

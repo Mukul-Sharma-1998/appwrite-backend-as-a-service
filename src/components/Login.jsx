@@ -12,6 +12,7 @@ function Login() {
     const dispatch = useDispatch()
     const {register, handleSubmit} = useForm()
     const [error, setError] = useState("")
+    console.log("loginnnnnnnnnnnnn is called")
 
     const login = async(data) => {
         setError("")

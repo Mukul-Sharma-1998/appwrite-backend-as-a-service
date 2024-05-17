@@ -31,6 +31,7 @@ function PostForm(post) {
                 featuredImage: file ? file.id : undefined
             });
             if (dbPost) {
+                // TODO: update store with latest post
                 navigate(`/post/${dbPost.$id}`);
             }
 
@@ -45,10 +46,12 @@ function PostForm(post) {
                     userId: userData.$id
                 })
                 if(dbPost) {
+                    // TODO: update store with latest post
                     navigate(`/post/${dbPost.$id}`)
                 }
             }
         }
+
     }
 
     const slugTransform = useCallback((value) => {
