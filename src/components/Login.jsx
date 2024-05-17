@@ -20,14 +20,11 @@ function Login() {
             if(session) {
                 const userData = await authService.getCurrentUser()
                 if(userData) {
-                    console.log("login userDataaaaaaaaaaaaaaaaaa", userData)
                     const posts = await appwriteService.getPosts()
-                    console.log("login postssssssssssssssssssssssss", posts)
                     const completePayload = {
                         userData: userData,
                         posts: posts
                     }
-                    console.log("completePayloadddddddddddddddddddddddd", completePayload)
                     dispatch(authLogin(completePayload))
 
                     navigate("/")
