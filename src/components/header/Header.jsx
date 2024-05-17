@@ -3,6 +3,7 @@ import { Container, Logo, LogoutBtn } from "../index";
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 function Header() {
 
@@ -11,27 +12,27 @@ function Header() {
     const navItems = [
         {
           name: 'Home',
-          slug: "/",
+          navigateTo: "/",
           active: true
         }, 
         {
           name: "Login",
-          slug: "/login",
+          navigateTo: "/login",
           active: !authStatus,
         },
         {
           name: "SignUp",
-          slug: "/signup",
+          navigateTo: "/signup",
           active: !authStatus,
         },
         {
-          name: "All Posts",
-          slug: "/all-posts",
+          name: "My Posts",
+          navigateTo: "/all-posts",
           active: authStatus,
         },
         {
           name: "Add Post",
-          slug: "/add-post",
+          navigateTo: "/add-post",
           active: authStatus,
         },
     ]
@@ -52,11 +53,19 @@ function Header() {
                         item.active ? 
                         (
                             <li key={item.name}>
-                                <button 
-                                onClick={() => navigate(item.slug)}
-                                className="inline-block px-6 py-2 duration-200 
-                                hover:bg-blue-100 rounded-full"
-                                >{item.name}</button>
+                                <NavLink
+                                to={item.navigateTo}
+                                className={({isActive}) =>`
+                                ${isActive ? "font-bold bg-blue-100" : ""}
+                                inline-block px-6 py-2 duration-200 
+                                hover:bg-blue-100 rounded-full
+                                
+                                `}>
+                                
+                                    <button 
+                                    onClick={() => navigate(item.navigateTo)}
+                                    >{item.name}</button>
+                                </NavLink>
                             </li>
                         )
                         : null

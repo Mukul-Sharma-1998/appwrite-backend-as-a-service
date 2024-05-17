@@ -2,17 +2,21 @@ import React, {useState, useEffect} from "react";
 import appwriteService from "../appwrite/appwriteConfig";
 import { PostCard, Container } from "../components";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 function Home() {
 
     const [posts, setPosts] = useState([])
+    const userStatus = useSelector((state) => state.auth.status)
+    const allPosts = useSelector((state) => state.auth.posts)  
 
     useEffect(() => {
-        appwriteService.getPosts().then((posts) => {
-            if(posts) {
-                setPosts(posts.documents)
+        if(userStatus) {
+            if(allPosts) {
+                setPosts(allPosts.documents)
             }
-        })
+        }
+
     }, [])
 
     if(posts.length === 0) {

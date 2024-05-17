@@ -35,7 +35,6 @@ function PostForm(post) {
             }
 
         } else {
-            console.log(data)
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null
 
             if(file) {
