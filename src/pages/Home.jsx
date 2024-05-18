@@ -2,17 +2,36 @@ import React, {useState, useEffect} from "react";
 import appwriteService from "../appwrite/appwriteConfig";
 import { PostCard, Container } from "../components";
 import { useNavigate, useParams } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { login } from "../store/authSlice";
 
 function Home() {
 
     const [posts, setPosts] = useState([])
+    const dispatch = useDispatch()
+    const userStatus = useSelector((state) => state.auth.status)
+    const allPosts = useSelector((state) => state.auth.posts)  
+    const  userData = useSelector((state) => state.auth.userData)
+
+    const updateStoreWithPosts = async () => {
+        const newPosts = await appwriteService.getPosts()
+        setPosts(newPosts.documents)
+        const updatedStoreData = {
+            userData: userData,
+            posts: newPosts
+        }
+        dispatch(login(updatedStoreData))
+    }
 
     useEffect(() => {
-        appwriteService.getPosts().then((posts) => {
-            if(posts) {
-                setPosts(posts.documents)
+        if(userStatus) {
+            if(allPosts) {
+                setPosts(allPosts.documents)
+            } else {
+                updateStoreWithPosts()
             }
-        })
+        }
+
     }, [])
 
     if(posts.length === 0) {

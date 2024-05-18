@@ -12,13 +12,20 @@ function Signup() {
     const dispatch = useDispatch()
     const {register, handleSubmit} = useForm()
 
-    const create = async(data) => {
+    const signup = async(data) => {
         setError("")
         try {
             const userData = await authService.createAccount(data)
             if (userData) {
                 const userData = await authService.getCurrentUser()
-                if(userData) dispatch(login(userData));
+                if(userData) {
+                    const posts = await appwriteService.getPosts()
+                    const completePayload = {
+                        userData: userData,
+                        posts: posts
+                    }
+                    dispatch(login(completePayload))
+                } 
                 navigate("/")
             }
         } catch (error) {
@@ -46,7 +53,7 @@ function Signup() {
                 </p>
                 {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
 
-                <form onSubmit={handleSubmit(create)}>
+                <form onSubmit={handleSubmit(signup)}>
                     <div className='space-y-5'>
                         <Input
                         label="Full Name: "

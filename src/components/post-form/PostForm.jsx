@@ -31,11 +31,11 @@ function PostForm(post) {
                 featuredImage: file ? file.id : undefined
             });
             if (dbPost) {
+                // TODO: update store with latest post
                 navigate(`/post/${dbPost.$id}`);
             }
 
         } else {
-            console.log(data)
             const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null
 
             if(file) {
@@ -46,10 +46,12 @@ function PostForm(post) {
                     userId: userData.$id
                 })
                 if(dbPost) {
+                    // TODO: update store with latest post
                     navigate(`/post/${dbPost.$id}`)
                 }
             }
         }
+
     }
 
     const slugTransform = useCallback((value) => {
